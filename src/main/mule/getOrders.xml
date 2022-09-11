@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="getOrdersSubFlow" doc:id="38546944-79e1-4845-9ca7-ae28039bca9d" >
+		<logger level="INFO" doc:name="Info: getOrders subflow start Logger" doc:id="553b9c79-99c5-47a8-87b0-ace55debea2d" message="getOrders subflow started"/>
+		<db:select doc:name="Select" doc:id="8e04df90-664e-4ce8-824f-b466766c5559" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from orders]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="7f1802e1-d845-4ca5-bd76-ab6f771aa0b2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Info:getorders subflow end Logger" doc:id="1e1fc143-c43f-48f5-baf8-fd6dd18e46be" message="getorders subflow ended"/>
+	</sub-flow>
+
+	
+</mule>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="postOrdersSubFlow" doc:id="af1212b0-eef9-405a-a63a-47ab01c97d25" >
+		<logger level="INFO" doc:name="Info: postOrders subflow start Logger" doc:id="2ae0bae2-1543-4168-827f-85dd650aeab8" message="postOrders subflow started"/>
+		<logger level="DEBUG" doc:name="Debug: postOrders subflow start Logger" doc:id="0a71856b-7e19-4209-bf85-3ad4f1a8e76e" message="payload before bulk insert is #[payload]"/>
+		<foreach doc:name="For Each" doc:id="9b038b45-f608-4a48-8a50-5fae9e25ae56" >
+			<db:insert doc:name="Insert" doc:id="e4099efd-5ab4-4320-a9ca-306bd2a20d59" config-ref="Database_Config">
+				<db:sql><![CDATA[INSERT INTO orders(order_id, customer_name, product, customer_address, customer_contact, order_type, regionOfSale,orderValue)
+VALUES(:order_id, :customer_name, :product, :customer_address, :customer_contact, :order_type, :regionOfSale, :orderValue)
+		]]></db:sql>
+				<db:input-parameters ><![CDATA[#[payload]]]></db:input-parameters>
+			</db:insert>
+		</foreach>
+		<ee:transform doc:name="Transform Message" doc:id="4478a77d-154d-4ef6-8f43-468e200f30e8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[
+{
+"order_id": payload.order_id,
+"message": "Order has been created successfully"
+}
+]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

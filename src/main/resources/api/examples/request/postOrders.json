@@ -1,0 +1,10 @@
+[{
+"order_id": 1,
+"customer_name": "Laverne Brade",
+"product": "Cheese-Brie",
+"customer_address": "1PierstorffDrive",
+"customer_contact": 72467899792,
+"order_type": "online",
+"regionOfSale": "NewYork",
+ "orderValue": "$617.41"
+}]

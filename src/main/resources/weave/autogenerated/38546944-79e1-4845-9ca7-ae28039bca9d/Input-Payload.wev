@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_38546944_79e1_4845_9ca7_ae28039bca9d_Input_Payload = Array<{|  order_id: Number,   customer_name: String,   product: String,   customer_address: String,   customer_contact: Number,   order_type: String,   regionOfSale: String,   orderValue: String|}>
+
